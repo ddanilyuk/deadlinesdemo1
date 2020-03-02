@@ -15,40 +15,34 @@ import java.util.Set;
 @RequestMapping("/deadlines")
 public class DeadlineController {
 
-    @Autowired
-    DeadlineRepository deadlineRepository;
+    private final DeadlineRepository deadlineRepository;
 
-    @Autowired
-    ProjectRepository projectRepository;
+    private final ProjectRepository projectRepository;
 
-    @GetMapping("/all")
-    public List<Deadline> index(){
-        return deadlineRepository.findAll();
+    public DeadlineController(DeadlineRepository deadlineRepository, ProjectRepository projectRepository) {
+        this.deadlineRepository = deadlineRepository;
+        this.projectRepository = projectRepository;
     }
 
+//    @GetMapping("/all")
+//    public List<Deadline> index(){
+//        return deadlineRepository.findAll();
+//    }
 
-    @PostMapping("/add/{id}")
-    public Project update(@PathVariable String id, @RequestBody Map<String, String> body){
-        int projectId = Integer.parseInt(id);
-        Project project = projectRepository.findByProjectId(projectId);
 
-        String project_name = body.get("project_name");
-        String project_description = body.get("project_description");
-        Deadline deadline = new Deadline(project_name, project_description);
-        deadline.setProject(project);
-
-        project.getDeadlines().add(deadline);
-
-//        Project project = projectRepository.findById(projectId);
+//    @PostMapping("/add/{id}")
+//    public Project update(@PathVariable String id, @RequestBody Map<String, String> body){
+//        int projectId = Integer.parseInt(id);
+//        Project project = projectRepository.findByProjectId(projectId);
+//
+//        String project_name = body.get("project_name");
+//        String project_description = body.get("project_description");
+//        Deadline deadline = new Deadline(project_name, project_description);
+//        deadline.setProject(project);
+//
 //        project.getDeadlines().add(deadline);
 //
-//        System.out.println(project);
-
-
-//        Deadline deadline = new Deadline(project_name, project_description);
-
-//        project.setDeadlines();
-
-        return projectRepository.save(project);
-    }
+//
+//        return projectRepository.save(project);
+//    }
 }

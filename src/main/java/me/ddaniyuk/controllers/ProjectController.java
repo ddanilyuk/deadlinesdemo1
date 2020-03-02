@@ -1,5 +1,6 @@
 package me.ddaniyuk.controllers;
 
+import me.ddaniyuk.models.Deadline;
 import me.ddaniyuk.models.Project;
 import me.ddaniyuk.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,41 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public List<Project> index(){
+    public List<Project> index() {
         return projectRepository.findAll();
     }
 
 
-    @PostMapping("/add")
-    public Project update(@RequestBody Map<String, String> body){
+    @GetMapping("/{id}")
+    public Project one(@PathVariable String id) {
+        int projectId = Integer.parseInt(id);
+        return projectRepository.findByProjectId(projectId);
+    }
+
+
+    @PostMapping("/add/newProject")
+    public Project newProject(@RequestBody Map<String, String> body) {
 
         String project_name = body.get("project_name");
         String project_description = body.get("project_description");
         Project project = new Project(project_name, project_description);
+        return projectRepository.save(project);
+    }
+
+
+    @PostMapping("/add/{id}/deadline")
+    public Project deadlineToProject(@PathVariable String id, @RequestBody Map<String, String> body) {
+        Project project = projectRepository.findByProjectId(Integer.parseInt(id));
+
+        String project_name = body.get("deadline_name");
+        String project_description = body.get("deadline_description");
+        Deadline deadline = new Deadline(project_name, project_description);
+        deadline.setProject(project);
+
+        project.getDeadlines().add(deadline);
 
         return projectRepository.save(project);
     }
+
 
 }

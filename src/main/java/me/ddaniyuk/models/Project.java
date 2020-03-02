@@ -19,7 +19,8 @@ public class Project {
 
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Deadline> deadlines = new ArrayList<>();;
+    private List<Deadline> deadlines = new ArrayList<>();
+
 
     public Project() {
     }
